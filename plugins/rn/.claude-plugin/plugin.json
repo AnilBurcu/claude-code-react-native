@@ -1,0 +1,12 @@
+{
+  "name": "rn",
+  "displayName": "React Native Toolkit",
+  "description": "Skills and agents that teach Claude Code how React Native apps actually break in production, and how to fix them.",
+  "author": {
+    "name": "AnilBurcu",
+    "url": "https://github.com/AnilBurcu"
+  },
+  "repository": "https://github.com/AnilBurcu/claude-code-react-native",
+  "license": "MIT",
+  "keywords": ["react-native", "expo", "mobile", "ios", "android", "eas", "hermes"]
+}

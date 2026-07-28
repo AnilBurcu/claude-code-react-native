@@ -1,0 +1,17 @@
+{
+  "name": "claude-code-react-native",
+  "owner": {
+    "name": "AnilBurcu",
+    "url": "https://github.com/AnilBurcu"
+  },
+  "plugins": [
+    {
+      "name": "rn",
+      "source": "./plugins/rn",
+      "description": "React Native and Expo field knowledge for Claude Code: build failure triage, SDK upgrades, New Architecture compatibility, Hermes crash decoding, push notifications, in-app purchases, deep links, monorepos, release pipelines.",
+      "author": {
+        "name": "AnilBurcu"
+      }
+    }
+  ]
+}
