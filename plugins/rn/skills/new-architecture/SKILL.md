@@ -1,6 +1,6 @@
 ---
 name: new-architecture
-description: Reference for React Native New Architecture (Fabric, TurboModules, bridgeless) compatibility work. Use when a library breaks under the New Architecture, when deciding whether to enable or disable newArchEnabled, or when errors mention codegen, Fabric, ViewPropTypes or requireNativeComponent.
+description: React Native New Architecture (Fabric, TurboModules, bridgeless) compatibility. Use when a library breaks under it, for newArchEnabled questions, or errors mentioning codegen, Fabric, ViewPropTypes, requireNativeComponent.
 user-invocable: false
 ---
 
@@ -57,4 +57,4 @@ Keep the old library only when it is load-bearing and the replacement needs a re
 
 ## Verifying a migration
 
-Enable the architecture in a branch, then exercise the app where Fabric differs: screens with heavy lists, custom native views, gesture-driven animations, modals and text inputs. Layout rounding and z-order edge cases show up visually, not in logs, so this is an eyes-on-device task rather than a unit test task.
+There is no flag to flip any more; the migration happens when an app that still ran on the legacy architecture (SDK 54 or older with `newArchEnabled: false`) moves to SDK 55+. Do that upgrade on a branch, then exercise the app where Fabric differs: screens with heavy lists, custom native views, gesture-driven animations, modals and text inputs. Layout rounding and z-order edge cases show up visually, not in logs, so this is an eyes-on-device task rather than a unit test task.

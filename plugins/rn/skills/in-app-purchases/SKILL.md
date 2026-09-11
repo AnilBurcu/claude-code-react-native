@@ -1,6 +1,6 @@
 ---
 name: in-app-purchases
-description: Reference for in-app purchases and subscriptions in React Native apps, with RevenueCat as the integration layer. Use when implementing paywalls or subscriptions, when sandbox purchases behave strangely, when premium status does not arrive after purchase, when webhooks need verification, or when restore and transfer flows are being designed.
+description: In-app purchases and subscriptions with RevenueCat. Use for paywalls, odd sandbox behavior, premium not arriving after purchase, webhook verification, restore and transfer flows.
 user-invocable: false
 ---
 
@@ -21,7 +21,8 @@ Every horror story in this domain is a variation of trusting the client: premium
 
 ## Webhooks: the part that must be boring
 
-- Verify the sender on every request: at minimum compare the Authorization header against your configured secret; where the provider offers HMAC-signed webhooks, prefer verifying the signature. An unverified webhook endpoint is an open "make me premium" API.
+- Verify the sender on every request. RevenueCat gives you two checks: the Authorization header value configured in the dashboard (compare the whole string), and optional HMAC signing, which adds `X-RevenueCat-Webhook-Signature: t=<unix seconds>,v1=<hex>` where v1 is HMAC-SHA256 over `<t>.<raw body>` with the signing secret. Turn signing on, verify against the raw request bytes before any JSON parsing, and reject timestamps outside a few minutes; the secret is shown once at creation, so store it immediately. An unverified webhook endpoint is an open "make me premium" API.
+- Answer fast. RevenueCat disconnects after 60 seconds and retries a failed or timed-out delivery up to 5 times with growing delays (5, 10, 20, 40, 80 minutes), then gives up. A slow handler therefore produces duplicates first and lost events second: commit the dedupe record and the upsert, return 200, and push anything slow (email, analytics, CRM sync) to a queue.
 - If the endpoint runs on a platform that enforces its own auth by default (Supabase Edge Functions and their JWT verification, for example), remember the store's webhook sender cannot present your platform's JWT. Shared-secret endpoints must have platform JWT verification disabled and their own secret check enabled, or every event bounces with 401 and premium "never arrives".
 - Deduplicate by event id. Webhook senders retry; your handler will see the same event twice on a bad day.
 - Store the environment (SANDBOX vs PRODUCTION) on every event and subscription row, and filter sandbox out of admin dashboards and metrics. Mixed environments make revenue numbers lie.

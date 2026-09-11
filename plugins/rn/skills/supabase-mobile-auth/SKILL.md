@@ -1,6 +1,6 @@
 ---
 name: supabase-mobile-auth
-description: Reference for Supabase auth and data access in React Native apps. Use when implementing Apple or Google sign-in with Supabase, when sessions drop or fail to refresh, when deep links for auth are involved, when RLS policies block mobile queries, or when Supabase requests hang on slow networks.
+description: Supabase auth and data access from React Native. Use for Apple or Google sign-in with Supabase, sessions dropping or not refreshing, auth deep links, RLS blocking mobile queries, requests hanging on slow networks.
 user-invocable: false
 ---
 

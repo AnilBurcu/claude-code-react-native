@@ -1,6 +1,6 @@
 ---
 name: fix-build
-description: Diagnose and fix a failing iOS or Android build. Use when the user says the build is broken, pod install fails, Gradle fails, or asks to fix a native build error.
+description: Diagnose and fix a failing iOS or Android build. Use when the build is broken, pod install or Gradle fails, or the user asks to fix a native build error.
 argument-hint: "[ios|android]"
 ---
 

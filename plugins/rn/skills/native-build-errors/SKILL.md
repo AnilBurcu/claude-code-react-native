@@ -1,6 +1,6 @@
 ---
 name: native-build-errors
-description: Reference for diagnosing failed iOS and Android builds in React Native projects. Use when a build fails with pod install errors, Gradle errors, Xcode errors, linker errors, or when the user pastes native build output. Covers CocoaPods, Gradle, Kotlin, JDK, codegen and cache problems.
+description: Diagnosing failed iOS and Android builds. Use for pod install, Gradle, Xcode or linker errors, pasted native build output, CocoaPods, Kotlin, JDK, codegen and cache problems.
 user-invocable: false
 ---
 

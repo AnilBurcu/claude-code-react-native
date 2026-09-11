@@ -42,6 +42,17 @@ Inside Claude Code:
 That's it. The knowledge skills activate on their own when your conversation
 touches their territory. The workflow skills are yours to invoke.
 
+To try it from a clone without installing anything:
+
+```
+git clone https://github.com/AnilBurcu/claude-code-react-native
+claude --plugin-dir ./claude-code-react-native/plugins/rn
+```
+
+Tested with Claude Code 2.1. The skill listing costs about 1,200 tokens of
+descriptions per turn (`/skill-doctor` shows the exact figure on your
+machine); a skill's full text loads only when it is used.
+
 ## What's inside
 
 ### Knowledge that loads itself

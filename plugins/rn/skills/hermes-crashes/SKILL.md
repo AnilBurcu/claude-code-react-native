@@ -1,6 +1,6 @@
 ---
 name: hermes-crashes
-description: Reference for decoding Hermes crashes and unreadable production stack traces in React Native. Use when a stack trace shows "address at index.android.bundle", when Sentry events are minified or grouped badly, when the app crashes with SIGSEGV in libhermes, or when symbolication and source maps come up.
+description: Decoding Hermes crashes and minified production stack traces. Use for "address at index.android.bundle" frames, unsymbolicated or badly grouped Sentry events, SIGSEGV in libhermes, ANRs, source maps.
 user-invocable: false
 ---
 
