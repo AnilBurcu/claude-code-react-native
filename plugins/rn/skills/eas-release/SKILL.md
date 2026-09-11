@@ -1,6 +1,6 @@
 ---
 name: eas-release
-description: Reference for building and releasing React Native apps with EAS and the app stores. Use when configuring eas.json build profiles, publishing OTA updates, submitting to the App Store or Play Store, handling store rejections, or planning versioning and rollback strategy.
+description: EAS builds, OTA updates and store submission. Use for eas.json profiles, safe OTA publishing, App Store or Play Store submission, store rejections, versioning and rollback.
 user-invocable: false
 ---
 
@@ -35,15 +35,19 @@ The runtime version is the safety fence. An update reaches only binaries with a 
 
 **iOS**
 - Privacy manifests and required-reason API declarations: third-party SDKs must declare why they touch fingerprintable APIs. Violations get the upload rejected outright (ITMS-91053 / ITMS-91061); the fix is upgrading the SDK, so leave lead time for it.
+- Apple raises the minimum toolchain every spring: since April 28, 2026 uploads must be built with Xcode 26 and the iOS 26 SDK, and the pattern (the previous autumn's Xcode, enforced the following April) repeats yearly. EAS build images track it, but a pinned `image` in eas.json or a self-hosted runner does not. Check before the deadline, because moving Xcode majors surfaces new build errors that deserve their own week.
 - App privacy labels must match what the SDKs actually collect. An analytics SDK you forgot in the labels is a rejection.
 - If you offer third-party sign-in, you must also offer a privacy-preserving login option per Guideline 4.8: limited data collection, an email-hiding choice, no ad tracking. Sign in with Apple satisfies it, but since early 2024 it is one qualifying option, not a mandate.
 - Account deletion must be reachable in-app when accounts can be created.
+- Age rating: App Store Connect replaced the rating questionnaire in 2026 and blocks new submissions until the new questions are answered. A five-minute form, and a surprise when it lands on release day.
+- EU distribution: apps without a verified Digital Services Act trader status are removed from the EU storefront. The declaration (trader or non-trader) is a one-time task in App Store Connect with a verification lag, so it goes at the start of the launch plan, not the end.
 - Export compliance: standard HTTPS-only apps set the encryption exemption flag in config once and stop being asked in every submission.
 - Purchases must have a working restore button. Steering rules now differ by storefront: on the US storefront apps may link out to external purchases (post-2025 court ruling, terms still in litigation), in the EU steering is allowed under Apple's DMA terms and fees, and on other storefronts the old rule still holds: no mention of purchasing outside the store. When in doubt, check the current App Review Guidelines for the storefronts you ship to.
 
 **Android**
 - Data safety form must match reality, same rule as iOS labels.
 - Target API level deadlines arrive yearly; check the current requirement early, since meeting it can force SDK upgrades.
+- 16 KB page-size support is a hard Play requirement (since November 2025) for apps targeting Android 15 or later: every native `.so` in the app must be 16 KB aligned. Current React Native and Expo SDKs comply; a precompiled library from an old package does not, and the upload fails on it. Check before submitting with `zipalign -c -P 16 -v 4 app.apk` on an APK built from the bundle, and treat a failure as "upgrade or replace that library", since there is no fix on your side.
 - New personal developer accounts face closed-testing requirements before production: a set number of testers, continuously, for 14 days (the exact tester count has changed over time; Play Console states the current one). Budget those days into the launch plan; they are calendar days, not build steps.
 - Play App Signing means Google holds the signing key. Your upload key can be reset easily; the app signing key rotates only through a slow upgrade path with legacy-device caveats, so treat the choice at first upload as long-term.
 

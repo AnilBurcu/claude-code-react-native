@@ -1,6 +1,6 @@
 ---
 name: rn-performance
-description: Reference for diagnosing and fixing React Native performance problems. Use when the app has slow lists, janky animations, slow startup, excessive re-renders, or when the user asks why the app feels sluggish. Covers FlashList, Reanimated, image handling, startup cost and profiling.
+description: Diagnosing and fixing React Native performance problems. Use for slow lists, janky animations, slow startup, excessive re-renders, or a sluggish app: FlashList, Reanimated, images, startup, profiling.
 user-invocable: false
 ---
 
@@ -8,7 +8,7 @@ user-invocable: false
 
 ## Two rules before touching code
 
-1. Profile release builds. Dev mode runs a different engine configuration with dev-only checks; its performance characteristics are fiction. `npx expo run:ios --configuration Release` (or the Android equivalent) before believing any measurement.
+1. Profile release builds. Dev mode runs a different engine configuration with dev-only checks; its performance characteristics are fiction. `npx expo run:ios --configuration Release` or `npx expo run:android --variant release` before believing any measurement.
 2. Name the thread. Everything slow is one of: JS thread saturated, UI thread saturated, or waiting on IO. The fix lives on the thread that is busy, and the profiler tells you which one it is; guessing does not.
 
 ## Lists

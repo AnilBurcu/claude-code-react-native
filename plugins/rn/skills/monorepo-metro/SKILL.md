@@ -1,6 +1,6 @@
 ---
 name: monorepo-metro
-description: Reference for running React Native and Expo apps inside monorepos. Use when a workspace app fails with Invalid hook call or duplicate react-native, when Metro cannot resolve workspace packages, when EAS builds fail only in the monorepo, or when deciding hoisting and lockfile strategy.
+description: React Native and Expo in monorepos. Use for Invalid hook call or duplicate react-native in a workspace app, Metro not resolving workspace packages, EAS failing only in the monorepo, hoisting and lockfile strategy.
 user-invocable: false
 ---
 

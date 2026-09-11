@@ -1,6 +1,6 @@
 ---
 name: perf-audit
-description: Scan the codebase for React Native performance antipatterns and report ranked findings. Use when the user asks for a performance review, why the app is slow, or wants a perf audit before release.
+description: Scan the codebase for React Native performance antipatterns and report ranked findings. Use for a performance review, a slow app, or a perf audit before release.
 argument-hint: "[path to focus on]"
 ---
 

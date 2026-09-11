@@ -1,6 +1,6 @@
 ---
 name: deep-linking
-description: Reference for deep links, universal links and app links in React Native apps. Use when links do not open the app, when setting up apple-app-site-association or assetlinks.json, when cold-start links get lost, or when configuring expo-router linking and custom URL schemes.
+description: Deep links, universal links and app links in React Native. Use when links do not open the app, for apple-app-site-association or assetlinks.json, lost cold-start links, expo-router linking, custom URL schemes.
 user-invocable: false
 ---
 

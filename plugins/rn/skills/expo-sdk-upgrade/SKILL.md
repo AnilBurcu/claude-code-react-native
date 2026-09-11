@@ -1,6 +1,6 @@
 ---
 name: expo-sdk-upgrade
-description: Reference for upgrading Expo SDK and React Native versions safely. Use when the user wants to upgrade Expo SDK, bump react-native, or asks why the app broke after an upgrade. Covers upgrade order, dependency alignment, expo-doctor, config plugin churn and OTA update pitfalls.
+description: Upgrading Expo SDK and React Native safely. Use when bumping the SDK or react-native, or when the app broke after an upgrade: upgrade order, expo install --fix, expo-doctor, config plugins, OTA pitfalls.
 user-invocable: false
 ---
 
@@ -16,29 +16,36 @@ user-invocable: false
 ## The order of operations
 
 ```bash
-# 1. Update the expo package itself to the target SDK
-#    (57 was current when this was written; check expo.dev/changelog)
-npm install expo@^57.0.0
+# 1. Update the expo package itself to the target SDK. Check expo.dev/changelog
+#    for the current number: Expo now ships about three SDKs a year (55, 56 and
+#    57 all landed in the first half of 2026), so a number written here rots fast.
+npm install expo@^<target>.0.0
 
 # 2. Let Expo align every SDK-managed dependency to the versions it was tested with
 npx expo install --fix
 
 # 3. Ask for a health report
-npx expo-doctor
+npx expo-doctor@latest
 ```
+
+The SDK changelogs fold steps 1 and 2 into one command, `npx expo install expo@^<target>.0.0 --fix`; either form ends in the same place.
 
 `expo install --fix` is the step people skip and then pay for. React Native, React, Reanimated, gesture-handler, screens and the rest are version-coupled per SDK. Mixing "latest of everything" is the most common source of upgrade crashes.
 
 Then:
 
 ```bash
-# 4. Regenerate native projects if the repo uses CNG (no manual edits under ios/ or android/)
+# 4. Regenerate native projects if the repo uses CNG (no manual edits under ios/ or android/).
+#    --clean deletes ios/ and android/ before regenerating, which is what the
+#    changelogs mean by "delete the native directories and run prebuild".
 npx expo prebuild --clean
 
 # 5. Run both platforms before declaring victory
 npx expo run:ios
 npx expo run:android
 ```
+
+If the project uses expo-dev-client, the previous development build is now the wrong runtime. Build a new one (the run commands above produce it) before testing anything, or every screen looks broken for a reason that has nothing to do with the upgrade.
 
 ## What expo-doctor tells you and what it cannot
 
@@ -50,6 +57,7 @@ It cannot catch runtime behavior changes. A library can install cleanly and stil
 
 - react-native-reanimated: tightly coupled to the React Native version. Never pin it ahead of or behind what `expo install` chooses.
 - react-native-gesture-handler, react-native-screens, react-native-safe-area-context: same rule.
+- react-native-reanimated 4 (SDK 54 and later) split its worklet runtime into a separate package and runs only on the New Architecture. `react-native-worklets` must be a direct dependency, and the Babel plugin moves from `react-native-reanimated/plugin` to `react-native-worklets/plugin`. babel-preset-expo picks the worklets plugin up on its own once the package is present, but an explicit reanimated plugin entry in babel.config.js has to be renamed, and bare projects need the new entry. Half-migrations fail with `Cannot find module 'react-native-worklets'` or plugin mismatch errors at startup. `expo install --fix` aligns versions of packages you already have; it does not add the new package or edit Babel config.
 - Anything with a config plugin: plugin APIs shift between SDKs, so a library's plugin can throw during prebuild even when its runtime code is fine. The error names the plugin; check that library's release notes for the SDK you are targeting.
 
 ## The OTA trap that takes apps down

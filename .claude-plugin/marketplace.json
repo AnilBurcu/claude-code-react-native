@@ -4,6 +4,7 @@
     "name": "Anil Burcu",
     "url": "https://github.com/AnilBurcu"
   },
+  "description": "React Native and Expo field knowledge for Claude Code: skills, workflows and agents for build failures, SDK upgrades, Hermes crashes, push notifications, in-app purchases and store releases.",
   "plugins": [
     {
       "name": "rn",

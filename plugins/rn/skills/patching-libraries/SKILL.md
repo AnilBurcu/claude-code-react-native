@@ -1,6 +1,6 @@
 ---
 name: patching-libraries
-description: Reference for patching, forking or replacing broken third-party libraries in React Native projects. Use when a dependency has a bug with no released fix, when deciding between patch-package and forking, when patches break after an upgrade, or when an abandoned library blocks progress.
+description: Patching, forking or replacing broken third-party libraries. Use when a dependency has a bug with no released fix, for patch-package versus fork decisions, patches breaking after an upgrade, or an abandoned library.
 user-invocable: false
 ---
 

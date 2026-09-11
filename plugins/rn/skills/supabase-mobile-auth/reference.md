@@ -78,7 +78,10 @@ timeout below.
 
 The subtle part: replacing `init.signal` outright would silently disable
 every per-query `abortSignal()` the app sets, so the caller's signal has to
-be forwarded into the timeout controller.
+be forwarded into the timeout controller, reason included, so a cancelled
+query still surfaces the caller's own reason rather than looking like a
+timeout. Runtimes whose AbortController ignores the reason argument simply
+degrade to a plain abort.
 
 ```ts
 const fetchWithTimeout =
@@ -90,9 +93,9 @@ const fetchWithTimeout =
     const upstream = init?.signal;
     if (upstream) {
       if (upstream.aborted) {
-        controller.abort();
+        controller.abort(upstream.reason);
       } else {
-        upstream.addEventListener('abort', () => controller.abort(), { once: true });
+        upstream.addEventListener('abort', () => controller.abort(upstream.reason), { once: true });
       }
     }
 

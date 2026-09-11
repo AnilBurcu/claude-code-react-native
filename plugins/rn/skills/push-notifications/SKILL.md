@@ -1,6 +1,6 @@
 ---
 name: push-notifications
-description: Reference for push notification setup and debugging in React Native and Expo apps. Use when notifications do not arrive, when setting up FCM or APNs credentials, when DeviceNotRegistered or InvalidCredentials errors appear, or when foreground notifications, Android channels or scheduled notifications misbehave.
+description: Push notifications in React Native and Expo. Use when notifications do not arrive, for FCM or APNs credentials, DeviceNotRegistered or InvalidCredentials errors, foreground handling, Android channels, scheduled notifications, Expo Go limits.
 user-invocable: false
 ---
 
@@ -12,6 +12,8 @@ user-invocable: false
 - **Direct FCM / APNs** (device tokens, often with notifee for rich display): full control, more moving parts, needed for some advanced delivery cases.
 
 The classic self-inflicted wound is mixing lanes: registering an Expo push token but sending through FCM directly, or vice versa. A token only works with the service it belongs to. Decide once, document it in the repo, and delete the code paths of the other lane.
+
+**Expo Go is not a push test bed.** Since SDK 53, remote push through expo-notifications does not work in Expo Go on Android at all; a development build is required. Local notifications still work there, which is why the gap gets blamed on credentials instead. Test push in a development build or a release build, never in Expo Go.
 
 ## Credentials
 
@@ -40,12 +42,13 @@ The classic self-inflicted wound is mixing lanes: registering an Expo push token
 
 ## When "notifications don't arrive", in order
 
-1. Which lane is the token from, and did the send go through that lane's service?
-2. Credentials: APNs key present for this app's team and bundle id? FCM V1 service account uploaded and google-services.json matching the applicationId?
-3. Is the token current? Reinstall the app, register the fresh token, send to exactly that token.
-4. Payload: silent/data-only messages are throttled aggressively by both platforms; visible notifications with title and body are the honest test.
-5. Device state: battery savers and doze delay delivery legally. Test with the app freshly backgrounded on a charged, awake device before blaming the pipeline.
-6. Read the actual per-token API response (ticket, receipt or FCM error), not your server's aggregate log line. The reason is usually printed there verbatim.
+1. Which build produced the token? Expo Go on Android cannot receive remote push since SDK 53, so anything observed there is not evidence. Repeat on a development or release build first.
+2. Which lane is the token from, and did the send go through that lane's service?
+3. Credentials: APNs key present for this app's team and bundle id? FCM V1 service account uploaded and google-services.json matching the applicationId?
+4. Is the token current? Reinstall the app, register the fresh token, send to exactly that token.
+5. Payload: silent/data-only messages are throttled aggressively by both platforms; visible notifications with title and body are the honest test.
+6. Device state: battery savers and doze delay delivery legally. Test with the app freshly backgrounded on a charged, awake device before blaming the pipeline.
+7. Read the actual per-token API response (ticket, receipt or FCM error), not your server's aggregate log line. The reason is usually printed there verbatim.
 
 ## Scheduled local notifications
 

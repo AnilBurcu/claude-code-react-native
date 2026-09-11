@@ -16,5 +16,6 @@ Check, with the eas-release skill as the rulebook:
 5. **Store hygiene**: account deletion path exists if accounts exist; restore purchases reachable if IAP exists; sign-in options meet platform rules; privacy labels and data safety answers match the SDK list (list the SDKs that collect data so the user can compare).
 6. **Config sanity**: production build profile points at production backend; no debug flags, staging URLs or test paywalls behind release config; app icon and splash present for both platforms.
 7. **Quality gates**: typecheck, lint and tests pass; if there is a preview/QA build lane, confirm the release candidate went through it.
+8. **Android native alignment**: when a build artifact is at hand, verify 16 KB page alignment of native libraries (`zipalign -c -P 16 -v 4` on an APK built from the bundle); Play rejects unaligned `.so` files for apps targeting Android 15+. Without an artifact, list native dependencies whose last release predates the requirement as warnings.
 
 Rules of engagement: read-only plus running the project's own check commands. Findings come back as blocker vs warning, each with file evidence. End with a plain verdict: ready to submit, or the ordered list of what blocks it.

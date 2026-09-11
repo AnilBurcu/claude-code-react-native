@@ -1,6 +1,6 @@
 ---
 name: log-triage
-description: Method for working with huge build and device logs without drowning the conversation. Use when a native build produces hundreds of lines of output, when reading adb logcat or simulator logs, when the user pastes a wall of log text, or when extracting the one error line that matters.
+description: Working with huge build and device logs. Use when a build prints hundreds of lines, for adb logcat or simulator logs, when the user pastes a wall of log text, or to extract the one error line that matters.
 user-invocable: false
 ---
 
